@@ -6,16 +6,18 @@ from apps.peoples.models import Peoples
 
 from .models import Deals
 
-class DealsSerializer(serializers.ModelSerializer):
-    sender = PeopleSerializer()
 
+class DealsSaveSerializer(serializers.ModelSerializer):
+    
     class Meta(object):
         model = Deals
         fields = ('id', 'sender', 'receiver')
 
-    def create(self, validated_data):
-        sender_id = validated_data.pop('sender')
-        sender = Peoples.objects.get(id=sender_id)
-        validated_data['sender'] = sender
-        deal = Deals.objects.create(**validated_data)
-        return deal
+
+class DealsSerializer(serializers.ModelSerializer):
+    sender = PeopleSerializer(read_only=True)
+    receiver = PeopleSerializer(read_only=True)
+
+    class Meta(object):
+        model = Deals
+        fields = ('id', 'sender', 'receiver')

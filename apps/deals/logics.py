@@ -1,13 +1,14 @@
-from .serializers import DealsSerializer
+from .serializers import DealsSerializer, DealsSaveSerializer
 from .models import Deals
 
+deal_save_serial = DealsSaveSerializer
 deal_serial = DealsSerializer
 deal_object = Deals.objects
 
 class DealManager:
 
     def make(self, deal_peoples):
-        serializer = deal_serial(data=deal_peoples)
+        serializer = deal_save_serial(data=deal_peoples)
         serializer.is_valid(raise_exception=True)
         result = serializer.save()
         return result.id
