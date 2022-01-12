@@ -15,6 +15,7 @@ class DealsSaveSerializer(serializers.ModelSerializer):
 
 
 class DealsSerializer(serializers.ModelSerializer):
+    
     sender = PeopleSerializer(read_only=True)
     receiver = PeopleSerializer(read_only=True)
 

@@ -8,7 +8,7 @@ manager = DealManager()
 class DealApiView(APIView):
 
     def post(self, request):
-        # request.query_params.get('')
+        # request.data.get('')
         try:
             deal_peoples = request.data
             deal_id = manager.make(deal_peoples)
@@ -21,6 +21,7 @@ class DealApiView(APIView):
 class DealDetailApiView(APIView):
 
     def get(self, request, id):
+        # request.query_params.get('')
         try:
             deal = manager.read_one(id)
             return Response(status=status.HTTP_200_OK, data=deal)

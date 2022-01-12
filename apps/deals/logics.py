@@ -16,3 +16,7 @@ class DealManager:
     def read_one(self, deal_id):
         deal = deal_object.get(id=deal_id)
         return deal_serial(deal).data
+
+    def list(self):
+        # TODO
+        pass

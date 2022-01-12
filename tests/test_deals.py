@@ -26,7 +26,7 @@ class ApiTest(APITestCase):
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
         deal_id = str(resp.data)
 
-        resp = self.client.get("/deals/" + deal_id + "/")
+        resp = self.client.get(f"/deals/{deal_id}/")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertEqual(resp.data.get('sender').get('name'), 'chulsu')
 
@@ -34,10 +34,10 @@ class ApiTest(APITestCase):
             'sender': people_ids[0],
             'receiver': people_ids[2],
         }
-        resp = self.client.post("/deals/", data)
+        resp = self.client.post("/deals", data)
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
         deal_id = str(resp.data)
 
-        resp = self.client.get("/deals/" + deal_id + "/")
+        resp = self.client.get(f"/deals/{deal_id}")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertEqual(resp.data.get('receiver').get('name'), 'mansu')

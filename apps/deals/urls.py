@@ -1,9 +1,9 @@
-from django.urls import path
+from django.urls import re_path
 from . import views
 
 app_name='deals'
 
 urlpatterns = [
-    path('', views.DealApiView.as_view()),
-    path('<int:id>/', views.DealDetailApiView.as_view()),
+    re_path(r'/?$', views.DealApiView.as_view()),
+    re_path(r'/(?P<id>[0-9]+)/?$', views.DealDetailApiView.as_view()),
 ]

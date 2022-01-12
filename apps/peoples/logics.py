@@ -9,7 +9,8 @@ class PeopleManager:
 
     def read_one(self, people_number):
         people = people_object.get(id=people_number)
-        return people_serial(people).data
+        serial = people_serial(people)
+        return serial.data
 
     def list(self):
         peoples = people_object.all()
