@@ -25,6 +25,7 @@ class PeopleApiView(APIView):
             return Response(status=444)
 
 class PeopleDetailApiView(APIView):
+    
     def get(self, request, id):
         try:
             people = manager.read_one(id)

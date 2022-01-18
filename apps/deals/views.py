@@ -7,11 +7,15 @@ manager = DealManager()
 
 class DealApiView(APIView):
 
+    def get(self, request):
+        deal_list = manager.list()
+        return Response(status=status.HTTP_200_OK, data=deal_list)
+
     def post(self, request):
         # request.data.get('')
         try:
             deal_peoples = request.data
-            deal_id = manager.make(deal_peoples)
+            deal_id = manager.create_one(deal_peoples)
             return Response(status=status.HTTP_201_CREATED, data=deal_id)
         except KeyError as ke:
             return Response(status=status.HTTP_400_BAD_REQUEST)

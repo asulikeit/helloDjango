@@ -41,3 +41,7 @@ class ApiTest(APITestCase):
         resp = self.client.get(f"/deals/{deal_id}")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertEqual(resp.data.get('receiver').get('name'), 'mansu')
+
+        resp = self.client.get("/deals/")
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(resp.data), 2)

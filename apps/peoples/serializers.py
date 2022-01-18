@@ -11,13 +11,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ('id', 'profile_info')
 
 
-class SimplePeopleSerializer(serializers.ModelSerializer):
-
-    class Meta(object):
-        model = Peoples
-        fields = ('id', 'name', 'description')
-
-
 class PeopleListSerializer(serializers.ModelSerializer):
 
     class Meta(object):

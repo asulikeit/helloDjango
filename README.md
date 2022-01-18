@@ -8,6 +8,7 @@
     django-admin startapp deals apps/deals
     mkdir -p apps/peoples
     django-admin startapp peoples apps/peoples
+    django-admin startapp commonapi
 
 ### Requriement: python 3.7 & sqlite3.dll
 
