@@ -1,35 +1,23 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import status
+from typing import Any
 from .logics import DealManager
+from apps.apps_htmlapi import BaseHtmlAPI
 
-manager = DealManager()
 
-class DealApiView(APIView):
+class DealApiView(BaseHtmlAPI):
+
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(DealManager, **kwargs)
 
     def get(self, request):
-        deal_list = manager.list()
-        return Response(status=status.HTTP_200_OK, data=deal_list)
+        return self.list()
 
     def post(self, request):
-        # request.data.get('')
-        try:
-            deal_peoples = request.data
-            deal_id = manager.create_one(deal_peoples)
-            return Response(status=status.HTTP_201_CREATED, data=deal_id)
-        except KeyError as ke:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response(status=444)
+        return self.create_one(request.data)
 
-class DealDetailApiView(APIView):
+class DealDetailApiView(BaseHtmlAPI):
+
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(DealManager, **kwargs)
 
     def get(self, request, id):
-        # request.query_params.get('')
-        try:
-            deal = manager.read_one(id)
-            return Response(status=status.HTTP_200_OK, data=deal)
-        except KeyError as e:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response(status=444)
+        return self.read_one(id)

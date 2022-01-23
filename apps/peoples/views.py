@@ -1,36 +1,33 @@
-from django.core.exceptions import ObjectDoesNotExist
+from typing import Any
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework import status
 from .logics import PeopleManager
+from apps.apps_htmlapi import BaseHtmlAPI
 
-manager = PeopleManager()
 
-class PeopleApiView(APIView):
+class PeopleApiView(BaseHtmlAPI):
+
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(PeopleManager, **kwargs)
+
     def get(self, request):
-        people_list = manager.list()
-        return Response(status=status.HTTP_200_OK, data=people_list)
+        return self.list()
 
     def post(self, request):
         try:
             peoples = request.data.get('peoples')
             if (type(peoples) is not list) or len(peoples) <= 0:
                 raise AttributeError('no correct input type')
-            people_numbers = manager.create(peoples)
-            return Response(status=status.HTTP_201_CREATED, data=people_numbers)
         except ( ValidationError, AttributeError ) as ve:
             return Response(status=status.HTTP_400_BAD_REQUEST) 
-        except Exception as e:
-            return Response(status=444)
+        return self.create(peoples)
 
-class PeopleDetailApiView(APIView):
+
+class PeopleDetailApiView(BaseHtmlAPI):
+    
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(PeopleManager, **kwargs)
     
     def get(self, request, id):
-        try:
-            people = manager.read_one(id)
-            return Response(status=status.HTTP_200_OK, data=people)
-        except ObjectDoesNotExist as ne:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        except Exception as e:
-            return Response(status=444)
+        return self.read_one(id)

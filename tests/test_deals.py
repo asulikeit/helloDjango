@@ -7,17 +7,7 @@ class ApiTest(APITestCase):
         return super().setUp()
 
     def test01_deals(self):
-        people_list = [
-            {'name': 'chulsu', 'description': 'Kim Chul-su'},
-            {'name': 'yunghui', 'description': 'Lee Young-hui'},
-            {'name': 'mansu', 'description': 'Park Man-su'},
-        ]
-        data = { 'peoples': people_list }
-        resp = self.client.post("/peoples/", data, format='json')
-        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(len(resp.data), 3)
-
-        people_ids = resp.data
+        people_ids = self._test_people()
         data = {
             'sender': people_ids[0],
             'receiver': people_ids[1],
@@ -45,3 +35,15 @@ class ApiTest(APITestCase):
         resp = self.client.get("/deals/")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertEqual(len(resp.data), 2)
+
+    def _test_people(self):
+        people_list = [
+            {'name': 'chulsu', 'description': 'Kim Chul-su'},
+            {'name': 'yunghui', 'description': 'Lee Young-hui'},
+            {'name': 'mansu', 'description': 'Park Man-su'},
+        ]
+        data = { 'peoples': people_list }
+        resp = self.client.post("/peoples/", data, format='json')
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(len(resp.data), 3)
+        return resp.data
