@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'apps.peoples.apps.PeoplesConfig',
-    'apps.deals.apps.DealsConfig'
+    'apps.deals.apps.DealsConfig',
+    'apps.memberships.apps.MembershipsConfig'
 ]
 
 MIDDLEWARE = [

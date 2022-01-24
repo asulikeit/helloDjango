@@ -15,6 +15,7 @@
                 // "tests.test_peoples",
                 // "tests.test_address",
                 // "tests.test_encrypt",
+                // "tests.test_membership",
             ],
             "django": true,
             "justMyCode": false,

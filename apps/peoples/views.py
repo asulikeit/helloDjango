@@ -15,13 +15,7 @@ class PeopleApiView(BaseHtmlAPI):
         return self.list()
 
     def post(self, request):
-        try:
-            peoples = request.data.get('peoples')
-            if (type(peoples) is not list) or len(peoples) <= 0:
-                raise AttributeError('no correct input type')
-        except ( ValidationError, AttributeError ) as ve:
-            return Response(status=status.HTTP_400_BAD_REQUEST) 
-        return self.create(peoples)
+        return self.create(request.data, 'peoples')
 
 
 class PeopleDetailApiView(BaseHtmlAPI):

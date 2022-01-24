@@ -27,8 +27,11 @@ class BaseHtmlAPI(APIView):
         people_list = self._manager.list()
         return Response(status=status.HTTP_200_OK, data=people_list)
 
-    def create(self, json_list):
+    def create(self, req_data, get_key):
         try:
+            json_list = req_data.get(get_key)
+            if (type(json_list) is not list) or len(json_list) <= 0:
+                raise AttributeError('No correct input type. It must be list type.')
             created_ids = self._manager.create(json_list)
             return Response(status=status.HTTP_201_CREATED, data=created_ids)
         except KeyError as ke:
