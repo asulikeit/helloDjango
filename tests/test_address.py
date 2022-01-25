@@ -6,7 +6,7 @@ class JustTest(APITestCase):
     def setUp(self) -> None:
         return super().setUp()
 
-    def _test01_no_addr(self):
+    def test01_no_addr(self):
         people_list = [
             {'name': 'chulsu', 'description': 'Kim Chul-su'},
         ]

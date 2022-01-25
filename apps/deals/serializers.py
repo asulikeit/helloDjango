@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from utils.common.strings import copy_by_keys
 from apps.peoples.serializers import PeopleSerializer
 from .models import Deals
 
@@ -32,7 +32,7 @@ class DealsListSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         deal_json = {}
-        deal_json['id'] = instance.id
+        copy_by_keys(deal_json, instance, 'id')
         deal_json['sender'] = instance.sender.name
         deal_json['receiver'] = instance.receiver.name
         return deal_json

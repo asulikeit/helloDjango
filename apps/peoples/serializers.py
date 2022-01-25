@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from utils.common.strings import copy_by_keys
 
 from utils.security.encrypt_text import decrypt_text, encrypt_text
 from .models import Profiles, Peoples
@@ -29,9 +30,7 @@ class PeopleSerializer(serializers.ModelSerializer):
     # when serial.data
     def to_representation(self, instance):
         people_json = {}
-        people_json['id'] = instance.id
-        people_json['name'] = instance.name
-        people_json['description'] = instance.description
+        copy_by_keys(people_json, instance, 'id', 'name', 'description')
         if instance.profile:
             profile_json = {}
             profile_infos = self._decrypt(instance.name, instance.profile)
