@@ -3,9 +3,6 @@ from rest_framework.test import APITestCase
 
 class JustTest(APITestCase):
 
-    def setUp(self) -> None:
-        return super().setUp()
-
     def test01_no_addr(self):
         people_list = [
             {'name': 'chulsu', 'description': 'Kim Chul-su'},

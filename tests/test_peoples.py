@@ -3,9 +3,6 @@ from rest_framework.test import APITestCase
 
 class JustTest(APITestCase):
 
-    def setUp(self) -> None:
-        return super().setUp()
-
     def test01_peoples(self):
         people_list = [
             {'name': 'chulsu', 'description': 'Kim Chul-su'},
@@ -24,7 +21,7 @@ class JustTest(APITestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertEqual(resp.data.get('name'), 'chulsu')
 
-        resp = self.client.get("/peoples/0/")
+        resp = self.client.get("/peoples/0")
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
         resp = self.client.get("/peoples/")

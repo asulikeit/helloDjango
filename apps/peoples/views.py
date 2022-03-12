@@ -1,10 +1,12 @@
 from typing import Any
-from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework import status
+
 from .logics import PeopleManager
 from apps.apps_htmlapi import BaseHtmlAPI
 
+
+manager = PeopleManager()
 
 class PeopleApiView(BaseHtmlAPI):
 
@@ -25,3 +27,7 @@ class PeopleDetailApiView(BaseHtmlAPI):
     
     def get(self, request, id):
         return self.read_one(id)
+
+    def post(self, request, id):
+        manager.update(id, request.data)
+        return Response(status=status.HTTP_204_NO_CONTENT)

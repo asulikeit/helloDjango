@@ -7,4 +7,5 @@ class Profiles(models.Model):
 
 
 class Peoples(NameAndDescModel):
+    
     profile = models.OneToOneField(Profiles, on_delete=models.CASCADE, blank=True, null=True)

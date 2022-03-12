@@ -22,15 +22,25 @@ class PeopleListSerializer(serializers.ModelSerializer):
 class PeopleSerializer(serializers.ModelSerializer):
 
     profile = ProfileSerializer(required=False)
+    memberships = serializers.SerializerMethodField('get_memberships_prefetch_related')
 
     class Meta(object):
         model = Peoples
-        fields = ('id', 'name', 'description', 'profile')
+        fields = ('id', 'name', 'description', 'profile', 'memberships')
+
+    def get_memberships_prefetch_related(self, people):
+        memberships = people.memberships.all()
+        datas = []
+        for membership in memberships:
+            data = {'id': membership.id, 'name': membership.name}
+            datas.append(data)
+        return datas
     
     # when serial.data
     def to_representation(self, instance):
         people_json = {}
         copy_by_keys(people_json, instance, 'id', 'name', 'description')
+
         if instance.profile:
             profile_json = {}
             profile_infos = self._decrypt(instance.name, instance.profile)
@@ -40,6 +50,15 @@ class PeopleSerializer(serializers.ModelSerializer):
             people_json['profile'] = profile_json
         else:
             people_json['profile'] = {}
+
+        if instance.memberships:
+            membership_list = []
+            for membership in instance.memberships.all():
+                membership_list.append({'id': membership.id, 'name': membership.name})
+            people_json['memberships'] = membership_list
+        else:
+            people_json['memberships'] = {}
+
         return people_json
 
     # when is_valid()
@@ -54,7 +73,7 @@ class PeopleSerializer(serializers.ModelSerializer):
             people_data['profile'] = {'profile_info': profile_info[:-1]}
         return people_data
 
-    # create or update(w.instance) when save
+    # create when save
     def create(self, valid_data):
         people_obj = None
         if valid_data.get('profile'):
@@ -64,6 +83,11 @@ class PeopleSerializer(serializers.ModelSerializer):
         else:
             people_obj = Peoples.objects.create(**valid_data)
         return people_obj
+
+    # update when save
+    def update(self, instance, validated_data):
+        update_data = super().update(instance, validated_data)
+        return update_data
 
     def _encrypt(self, username, profile):
         encrypt_profile = {}
