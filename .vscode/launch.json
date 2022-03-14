@@ -11,11 +11,12 @@
             "program": "${workspaceFolder}\\manage.py",
             "args": [
                 "test",
-                // "tests.test_deals",
-                // "tests.test_peoples",
-                // "tests.test_address",
-                // "tests.test_encrypt",
-                // "tests.test_membership",
+                // "tests.test_deals"
+                // "tests.test_peoples"
+                // "tests.test_address"
+                // "tests.test_encrypt"
+                // "tests.test_membership"
+                // "tests.test_paging"
             ],
             "django": true,
             "justMyCode": false,

@@ -28,7 +28,7 @@ class JustTest(APITestCase):
 
         resp = self.client.get("/memberships/")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(resp.data), 2)
+        self.assertEqual(len(resp.data['data']), 2)
 
     def test02_membership(self):
         people_ids = test_people(self)

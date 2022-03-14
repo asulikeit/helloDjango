@@ -32,5 +32,5 @@ class ApiTest(APITestCase):
 
         resp = self.client.get("/deals/")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(resp.data), 2)
+        self.assertEqual(len(resp.data['data']), 2)
 

@@ -1,24 +1,18 @@
 from typing import Any
-from apps.apps_htmlapi import BaseHtmlAPI
+from apps.apps_htmlapi import BaseHtmlAPI, BaseDetailHtmlAPI
 from .logics import MembershipManager
 
 
 class MembershipApiView(BaseHtmlAPI):
 
     def __init__(self, **kwargs: Any) -> None:
-        super().__init__(MembershipManager, **kwargs)
-    
-    def get(self, request):
-        return self.list()
-
-    def post(self, request):
-        return self.create(request.data, 'memberships')
+        super().__init__(
+            get_key = 'memberships',
+            manager = MembershipManager,
+            **kwargs)
 
 
-class MembershipDetailApiView(BaseHtmlAPI):
+class MembershipDetailApiView(BaseDetailHtmlAPI):
 
     def __init__(self, **kwargs: Any) -> None:
-        super().__init__(MembershipManager, **kwargs)
-
-    def get(self, request, id):
-        return self.read_one(id)
+        super().__init__(MembershipManager, None, **kwargs)

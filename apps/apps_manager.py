@@ -1,3 +1,6 @@
+from django.core.paginator import Paginator
+
+
 class BaseManager:
     
     def __init__(self, model, serial, list_serial, save_serial):
@@ -6,13 +9,17 @@ class BaseManager:
         self._list_serial = list_serial
         self._save_serial = save_serial        
 
-    def read_one(self, obj_id):
+    def read(self, obj_id):
         obj = self._object.get(id=obj_id)
         return self._serial(obj).data
 
-    def list(self):
+    def list(self, page, size):
         obj_list = self._object.all()
-        return self._list_serial(obj_list, many=True).data
+        paging = Paginator(obj_list, size)
+        posts = paging.get_page(page).object_list
+        total_pages = paging.num_pages
+        total_count = paging.count
+        return self._list_serial(posts, many=True).data, total_count, total_pages
 
     def create(self, obj_list):
         created_ids = []
@@ -25,7 +32,14 @@ class BaseManager:
 
     def create_one(self, obj_one):
         serializer = self._save_serial(data=obj_one)
-        serializer.is_valid(raise_exception=True)
-        result = serializer.save()
+        result = self._save(serializer)
         return result.id
-        
+
+    def update(self, obj_id, obj_one):
+        obj = self._object.get(id=obj_id)
+        serializer = self._save_serial(obj, data=obj_one, partial=True)
+        self._save(serializer)
+
+    def _save(self, serializer):
+        serializer.is_valid(raise_exception=True)
+        return serializer.save()
