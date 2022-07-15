@@ -25,3 +25,6 @@
 ### Test
 
     python manage.py test
+    
+### ERD
+![image](https://user-images.githubusercontent.com/8528659/158085014-44d887d1-060b-4d4f-b3f2-9a27b2f8c4e7.png)
