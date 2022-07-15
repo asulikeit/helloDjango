@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Test deals app",
+            "name": "Python: Test app",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}\\manage.py",
@@ -17,6 +17,7 @@
                 // "tests.test_encrypt"
                 // "tests.test_membership"
                 // "tests.test_paging"
+                "tests.test_phonenumber"
             ],
             "django": true,
             "justMyCode": false,

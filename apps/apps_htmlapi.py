@@ -1,4 +1,3 @@
-from enum import Enum
 from typing import Any
 from rest_framework.response import Response
 from django.core.exceptions import ObjectDoesNotExist

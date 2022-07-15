@@ -26,11 +26,17 @@ class JustTest(APITestCase):
         resp = self.client.get("/memberships/0/")
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
+        data = { 'memberships': [{'name': 'church', 'description': 'church membership'}], }
+        resp = self.client.post("/memberships", data, format='json')
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
         resp = self.client.get("/memberships/")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(resp.data['data']), 2)
+        self.assertEqual(len(resp.data['data']), 3)
 
-    def test02_membership(self):
+        req_id = resp.data['data'][0].get('id')
+
+    def _test02_membership(self):
         people_ids = test_people(self)
 
         membership_list = [

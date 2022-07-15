@@ -2,7 +2,7 @@ from rest_framework import serializers
 from utils.common.strings import copy_by_keys
 
 from utils.security.encrypt_text import decrypt_text, encrypt_text
-from .models import Profiles, Peoples
+from .models import PhoneNumber, Profiles, Peoples
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -97,3 +97,12 @@ class PeopleSerializer(serializers.ModelSerializer):
 
     def _decrypt(self, username, encrypt_profile):
         return decrypt_text(encrypt_profile.profile_info, username)
+
+
+class PhonenumbersSerializer(serializers.ModelSerializer):
+
+    people = PeopleListSerializer()
+
+    class Meta(object):
+        model = PhoneNumber
+        fields = ('id', 'number', 'people')
