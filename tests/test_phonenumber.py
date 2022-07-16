@@ -1,7 +1,6 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
-
-from apps.peoples.models import PhoneNumber
+import json
 
 class JustTest(APITestCase):
 
@@ -14,6 +13,11 @@ class JustTest(APITestCase):
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
         self.assertEqual(len(resp.data), 1)
         people_id = resp.data[0]
+
+        resp = self.client.post(f'/peoples/{people_id}/phonenumbers', data, format='json')
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+        mess = resp.content.decode('utf-8')
+        print(f'====>{mess}')
 
         pnumber_list = [ '010-1234-5678', '010-2345-6789' ]
         data = { 'phonenumbers': pnumber_list}

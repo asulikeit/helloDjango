@@ -1,6 +1,6 @@
 from typing import Any
 from .logics import PeopleManager
-from apps.apps_htmlapi import BaseHtmlAPI, BaseDetailHtmlAPI
+from apps.apps_htmlapi import BaseAPIView, BaseHtmlAPI, BaseDetailHtmlAPI, SimpleAPIView
 
 from rest_framework import status
 from rest_framework.views import APIView
@@ -23,11 +23,12 @@ class PeopleDetailApiView(BaseDetailHtmlAPI):
         super().__init__(PeopleManager, None, **kwargs)
 
 
-class PNumbersApiView(APIView):
+class PNumbersApiView(SimpleAPIView):
 
-    _manager = PeopleManager
+    _manager = PeopleManager()
     
     def post(self, request, id):
+        self.check_request_data(request, 'phonenumbers')
         phonenumbers = request.data['phonenumbers']
         self._manager.add_phonenumbers(id, phonenumbers)
         if len(phonenumbers) == 2:

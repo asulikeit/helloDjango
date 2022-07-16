@@ -4,6 +4,23 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
+from rest_framework import serializers
+
+from utils.logger import CommonLog
+
+
+class SimpleAPIView(APIView):
+    
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+        self.logger = CommonLog(self.__class__.__name__)
+
+    def check_request_data(self, request, *lst):
+        no_ones = list(filter(lambda x : request.data.get(x) is None, lst))
+        if no_ones:
+            mess = f'Request missing: ' + str(no_ones)
+            self.logger.error(mess)
+            raise serializers.ValidationError(detail=mess)
 
 
 class BaseAPIView(APIView):
@@ -12,7 +29,7 @@ class BaseAPIView(APIView):
         super().__init__(**kwargs)
         self._key = get_key
         self._manager = manager()
-
+            
 
 class BaseHtmlAPI(BaseAPIView):
     
