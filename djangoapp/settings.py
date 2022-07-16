@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'apps.peoples.apps.PeoplesConfig',
     'apps.deals.apps.DealsConfig',
-    'apps.memberships.apps.MembershipsConfig'
+    'apps.memberships.apps.MembershipsConfig',
+    'method_override',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'method_override.middleware.MethodOverrideMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

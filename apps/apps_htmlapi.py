@@ -82,11 +82,15 @@ class BaseDetailHtmlAPI(BaseAPIView):
 
     def post(self, request, id):
         try:
-            self._manager.update(id, request.data)
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            updated = self._manager.update(id, request.data)
+            return Response(status=status.HTTP_202_ACCEPTED, data= updated)
         except KeyError as ke:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ObjectDoesNotExist as ne:
             return Response(status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response(status=444)
+
+    def delete(self, request, id):
+        self._manager.delete(id)
+        return Response(status=status.HTTP_204_NO_CONTENT)

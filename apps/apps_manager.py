@@ -38,8 +38,13 @@ class BaseManager:
     def update(self, obj_id, obj_one):
         obj = self._object.get(id=obj_id)
         serializer = self._save_serial(obj, data=obj_one, partial=True)
-        self._save(serializer)
+        updated = self._save(serializer)
+        return self._serial(updated).data
 
     def _save(self, serializer):
         serializer.is_valid(raise_exception=True)
         return serializer.save()
+
+    def delete(self, obj_id):
+        obj = self._object.get(id=obj_id)
+        obj.delete()

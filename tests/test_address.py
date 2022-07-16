@@ -9,7 +9,7 @@ class JustTest(APITestCase):
         ]
 
         data = { 'peoples': people_list }
-        resp = self.client.post("/peoples", data, format='json')
+        resp = self.client.post("/peoples/", data, format='json')
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
 
     def test02_address(self):
@@ -18,7 +18,7 @@ class JustTest(APITestCase):
         ]
 
         data = { 'peoples': people_list }
-        resp = self.client.post("/peoples", data, format='json')
+        resp = self.client.post("/peoples/", data, format='json')
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
         req_id = str(resp.data[0])
 
