@@ -17,7 +17,8 @@
                 // "tests.test_encrypt"
                 // "tests.test_membership"
                 // "tests.test_paging"
-                "tests.test_phonenumber"
+                // "tests.test_phonenumber"
+                // "tests.test_e2e_peoples"
             ],
             "django": true,
             "justMyCode": false,

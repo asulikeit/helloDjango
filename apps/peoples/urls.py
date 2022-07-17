@@ -4,7 +4,8 @@ from . import views
 app_name='peoples'
 
 urlpatterns = [
-    re_path(r'$', views.PeopleApiView.as_view()),
-    re_path(r'(?P<id>[0-9]+)/?$', views.PeopleDetailApiView.as_view()),
-    re_path(r'(?P<id>[0-9]+)/phonenumbers/?$', views.PNumbersApiView.as_view()),
+    re_path(r'/?$', views.PeopleApiView.as_view()),
+    re_path(r'/(?P<id>[0-9]+)/?$', views.PeopleDetailApiView.as_view()),
+    re_path(r'/(?P<id>[0-9]+)/phonenumbers/?$', views.PNumbersApiView.as_view()),
+    re_path(r'/test/?$', views.PeopleHttpApi.as_view()),
 ]

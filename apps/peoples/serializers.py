@@ -2,7 +2,7 @@ from rest_framework import serializers
 from utils.common.strings import copy_by_keys
 
 from utils.security.encrypt_text import decrypt_text, encrypt_text
-from .models import PhoneNumber, Profiles, Peoples
+from .models import PhoneNumber, Profiles, PeopleModel
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -15,7 +15,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class PeopleListSerializer(serializers.ModelSerializer):
 
     class Meta(object):
-        model = Peoples
+        model = PeopleModel
         fields = ('id', 'name')
 
 
@@ -25,7 +25,7 @@ class PeopleSerializer(serializers.ModelSerializer):
     memberships = serializers.SerializerMethodField('get_memberships_prefetch_related')
 
     class Meta(object):
-        model = Peoples
+        model = PeopleModel
         fields = ('id', 'name', 'description', 'profile', 'memberships')
 
     def get_memberships_prefetch_related(self, people):
@@ -79,9 +79,9 @@ class PeopleSerializer(serializers.ModelSerializer):
         if valid_data.get('profile'):
             profile_str = self._encrypt(valid_data.get('name'), valid_data.pop('profile'))
             profile_obj = Profiles.objects.create(**profile_str)
-            people_obj = Peoples.objects.create(profile=profile_obj, **valid_data)
+            people_obj = PeopleModel.objects.create(profile=profile_obj, **valid_data)
         else:
-            people_obj = Peoples.objects.create(**valid_data)
+            people_obj = PeopleModel.objects.create(**valid_data)
         return people_obj
 
     # update when save
