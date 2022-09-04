@@ -19,6 +19,7 @@
                 // "tests.test_paging"
                 // "tests.test_phonenumber"
                 // "tests.test_e2e_peoples"
+                "tests.test_small_logic"
             ],
             "django": true,
             "justMyCode": false,

@@ -1,6 +1,6 @@
 from typing import List
 
-from apps.peoples.domains import ClubUsers, SignForms
+from apps.peoples.domains import ClubUser, SignForms
 from utils.exception import HelloServerError
 from .serializers import PeopleSerializer, PeopleListSerializer, PhonenumbersSerializer
 from .models import PeopleModel
@@ -29,22 +29,37 @@ class PeopleManager(BaseManager):
             serializer.is_valid()
 
 
+class PeopleLogic:
+
+    manager = PeopleManager()
+
+    @classmethod
+    def add(cls, club_user: ClubUser):
+        cls.manager.create()
+
+
 class MembersLogic:
 
     @staticmethod
-    def signup(sign_forms: SignForms) -> None:
+    def add_waiting(sign_forms: SignForms) -> None:
         request_len = len(sign_forms)
         result_len = 0
         while (sign_forms.is_exist()):
-            new_people = ClubUsers(sign_forms.pop())
+            new_people = ClubUser(sign_forms.pop())
             WaitingList.instance().add(new_people)
             result_len += 1
         if request_len != result_len:
+            #TODO: atomic
             raise HelloServerError("Failed to register some users to list.")
 
     @staticmethod
     def check_waiting() -> List:
         return WaitingList.instance().list()
+
+    def confirm_waiting(self):
+        waiting_users = WaitingList.instance().list()
+        for waiting_user in waiting_users:
+            PeopleLogic.create(waiting_user)
 
 
 class SingletonInstane:
@@ -65,7 +80,7 @@ class WaitingList(SingletonInstane):
 
     _list = []
 
-    def add(self, people: ClubUsers):
+    def add(self, people: ClubUser):
         self._list.append(people)
 
     def pop(self):

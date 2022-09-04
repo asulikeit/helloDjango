@@ -1,3 +1,4 @@
+from re import L
 from rest_framework import serializers
 
 
@@ -8,7 +9,8 @@ class SignSerialzer(serializers.Serializer):
 
 
 class SignForm(object):
-    pass
+    name = ''
+    description = ''
 
 
 class SignForms:
@@ -38,13 +40,23 @@ class SignForms:
         return len(self._data)
 
 
-class ClubUsersSerialzer(serializers.Serializer):
+class ClubUserSerialzer(serializers.Serializer):
 
     name = serializers.CharField(max_length=200)
     description = serializers.CharField(max_length=999)
 
 
-class ClubUsers:
+class ClubUser:
+
+    _serial = ClubUserSerialzer
 
     def __init__(self, sign_form) -> None:
-        pass
+        sign_form_dict = SignSerialzer(sign_form).data
+        serial = self._serial(data=sign_form_dict)
+        serial.is_valid(raise_exception=True)
+        dist_one = serial.data
+        for key, value in dist_one.items():
+            setattr(self, key, value)
+
+    def to_dict(self) -> dict:
+        return self._serial(self).data

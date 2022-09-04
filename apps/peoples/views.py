@@ -1,6 +1,6 @@
 from typing import Any
 
-from apps.peoples.domains import ClubUsersSerialzer, SignForms
+from apps.peoples.domains import ClubUserSerialzer, SignForms
 from utils.exception import HelloServerError
 from .logics import MembersLogic, PeopleManager
 from apps.apps_htmlapi import BaseHtmlAPI, BaseDetailHtmlAPI, SimpleAPIView
@@ -41,10 +41,9 @@ class PeopleHttpApi(SimpleAPIView):
 
     def post(self, request):
         try:
-            self.check_request_data(request, 'peoples')
-            peoples = request.data['peoples']
+            peoples = request.data.get('peoples')
             new_sign_forms = SignForms(peoples)
-            MembersLogic.signup(new_sign_forms)
+            MembersLogic.add_waiting(new_sign_forms)
             return Response(status=status.HTTP_201_CREATED)
         except HelloServerError as hse:
             self.logger.error(hse.args[0])
@@ -53,9 +52,16 @@ class PeopleHttpApi(SimpleAPIView):
     def get(self, request):
         try:
             waiting_user_list = MembersLogic.check_waiting()
-            serial = ClubUsersSerialzer(waiting_user_list, many=True)
-            resp_data = serial.data
-            return Response(status=status.HTTP_200_OK, data=resp_data)
+            serial = ClubUserSerialzer(waiting_user_list, many=True)
+            return Response(status=status.HTTP_200_OK, data=serial.data)
         except HelloServerError as hse:
             self.logger.error(hse.args[0])
             return server_error(request)
+
+
+class PeopleConfirmHttpApi(SimpleAPIView):
+    
+    #TODO: Admin permission
+    def post(self, request):
+        MembersLogic.confirm_waiting()
+        return Response(status=status.HTTP_201_CREATED)
