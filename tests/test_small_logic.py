@@ -1,6 +1,6 @@
 from unicodedata import name
 from django.test import TestCase
-from apps.peoples.domains import ClubUser, SignForm
+from openapis.domains import ClubUser, SignForm
 
 class SmallTest(TestCase):
 

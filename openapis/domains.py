@@ -4,11 +4,11 @@ from rest_framework import serializers
 
 class SignSerialzer(serializers.Serializer):
 
-    name = serializers.CharField(max_length=200)
-    description = serializers.CharField(max_length=999)
+    name = serializers.CharField(max_length=100)
+    description = serializers.CharField(max_length=200)
 
 
-class SignForm(object):
+class SignForm:
     name = ''
     description = ''
 

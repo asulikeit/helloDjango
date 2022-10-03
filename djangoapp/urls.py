@@ -19,4 +19,5 @@ urlpatterns = [
     path('deals', include('apps.deals.urls')),
     path('peoples', include('apps.peoples.urls')),
     path('memberships', include('apps.memberships.urls')),
+    path('api/v1/', include('openapis.urls'))
 ]
